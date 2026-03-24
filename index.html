@@ -4,122 +4,774 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>課堂即時反饋</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: system-ui; }
-    .success { display: none; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a1a2e;
+      --navy-mid: #16213e;
+      --accent: #e8c547;
+      --accent-dim: #f5e27a;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #f7f7f9;
+      --white: #ffffff;
+      --success: #059669;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── 頂部 header ── */
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.25);
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: white;
+    }
+    .header-divider {
+      width: 1px; height: 18px;
+      background: rgba(255,255,255,0.2);
+    }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+    }
+    .header-badge {
+      font-size: 11px;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* ── 主體佈局 ── */
+    .layout {
+      display: flex;
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 32px 16px 64px;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    /* ── 側邊選單 ── */
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 72px;
+    }
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding: 0 12px 8px;
+    }
+    .nav-list { list-style: none; }
+    .nav-item {
+      margin-bottom: 2px;
+    }
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.15s;
+      font-weight: 500;
+      position: relative;
+    }
+    .nav-btn:hover {
+      background: white;
+      color: var(--text);
+    }
+    .nav-btn.active {
+      background: var(--navy);
+      color: white;
+    }
+    .nav-btn.done {
+      color: var(--success);
+    }
+    .nav-btn.done::after {
+      content: '✓';
+      margin-left: auto;
+      font-size: 12px;
+    }
+    .nav-icon { font-size: 15px; flex-shrink: 0; }
+    .nav-number {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.06);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-btn.active .nav-number {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* 進度條 */
+    .progress-wrap {
+      margin-top: 20px;
+      padding: 0 12px;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-bar-bg {
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--navy);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ── 內容區 ── */
+    .content { flex: 1; min-width: 0; }
+
+    /* 區塊 section */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-header {
+      margin-bottom: 20px;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: white;
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    /* 卡片 */
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 14px;
+    }
+
+    /* 欄位 */
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .field-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fafafa;
+      outline: none;
+      transition: border 0.15s, background 0.15s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--navy);
+      background: white;
+    }
+
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Emoji 理解程度 */
+    .emoji-group { display: flex; gap: 8px; }
+    .emoji-group input[type="radio"] { display: none; }
+    .emoji-group label {
+      flex: 1;
+      text-align: center;
+      padding: 14px 4px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: #fafafa;
+    }
+    .emoji-group label .emo { font-size: 24px; display: block; margin-bottom: 5px; }
+    .emoji-group label .lbl { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
+    .emoji-group input:checked + label {
+      border-color: var(--navy);
+      background: var(--navy);
+    }
+    .emoji-group input:checked + label .lbl { color: rgba(255,255,255,0.8); }
+
+    /* 按鈕式單選 / 複選 */
+    .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn-group input[type="radio"],
+    .btn-group input[type="checkbox"] { display: none; }
+    .btn-group label {
+      padding: 9px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: white;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .btn-group input:checked + label {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: white;
+    }
+
+    /* 下一頁 / 上一頁按鈕 */
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .btn-prev {
+      padding: 10px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .btn-prev:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-next {
+      padding: 11px 28px;
+      border: none;
+      border-radius: 8px;
+      background: var(--navy);
+      color: white;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-next:hover { background: #2d2d4e; }
+
+    /* 狀態列 */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    .status-dot.ready { background: #f59e0b; }
+    .status-dot.sent  { background: var(--success); }
+
+    /* 送出按鈕 */
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: var(--navy);
+      color: white;
+      font-size: 15px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.03em;
+    }
+    .submit-btn:hover { background: #2d2d4e; }
+    .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    /* 確認預覽 */
+    .review-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .review-table tr { border-bottom: 1px solid var(--border); }
+    .review-table tr:last-child { border-bottom: none; }
+    .review-table th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 35%;
+      background: #fafafa;
+    }
+    .review-table td {
+      padding: 10px 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .review-empty { color: #d1d5db; font-style: italic; }
+
+    /* 成功畫面 */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 64px 24px;
+    }
+    .success-screen .big { font-size: 56px; margin-bottom: 20px; }
+    .success-screen h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 10px;
+    }
+    .success-screen p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+    .success-screen .refill {
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--navy);
+      background: none;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* RWD */
+    @media (max-width: 640px) {
+      .layout { flex-direction: column; padding: 16px 12px 48px; gap: 0; }
+      .sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 16px;
+      }
+      .nav-list { display: flex; flex-wrap: wrap; gap: 6px; }
+      .nav-btn { padding: 7px 12px; font-size: 12px; }
+      .progress-wrap { display: none; }
+      .sidebar-label { display: none; }
+      .emoji-group { gap: 5px; }
+      .row-2 { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body class="bg-blue-50 min-h-screen py-10">
-  <div class="max-w-xl mx-auto bg-white p-8 rounded-3xl shadow-xl">
-    <h1 class="text-2xl font-bold text-center text-blue-700 mb-1">📚 課堂即時反饋</h1>
-    <p class="text-center text-gray-400 text-sm mb-8">填完後老師會即時看到，請放心填寫！</p>
+<body>
 
-    <form id="surveyForm" class="space-y-7">
-
-      <div>
-        <label class="block text-sm font-semibold mb-2">姓名</label>
-        <input name="姓名" type="text" required
-          class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:border-blue-500"
-          placeholder="請輸入你的姓名">
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-2">今天課程的理解程度</label>
-        <div class="flex gap-3 flex-wrap">
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="理解程度" value="5" required class="sr-only"> 😄<br><span class="text-xs">完全理解</span>
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="理解程度" value="4" class="sr-only"> 🙂<br><span class="text-xs">大致理解</span>
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="理解程度" value="3" class="sr-only"> 😐<br><span class="text-xs">有點模糊</span>
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="理解程度" value="2" class="sr-only"> 😕<br><span class="text-xs">不太懂</span>
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="理解程度" value="1" class="sr-only"> 😵<br><span class="text-xs">完全不懂</span>
-          </label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-2">今天最難理解的概念是？</label>
-        <input name="最難的概念" type="text"
-          class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:border-blue-500"
-          placeholder="例如：某個公式、某個定義">
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-2">想問老師的問題</label>
-        <textarea name="想問的問題" rows="3"
-          class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:border-blue-500"
-          placeholder="可以匿名，盡量寫！"></textarea>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-3">今天的課程節奏</label>
-        <div class="flex gap-3">
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="課程節奏" value="太快" required class="sr-only"> 🏃 太快
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-green-50 has-[:checked]:bg-green-100 has-[:checked]:border-green-500">
-            <input type="radio" name="課程節奏" value="剛好" class="sr-only"> ✅ 剛好
-          </label>
-          <label class="flex-1 text-center border rounded-xl py-3 cursor-pointer hover:bg-blue-50 has-[:checked]:bg-blue-100 has-[:checked]:border-blue-500">
-            <input type="radio" name="課程節奏" value="太慢" class="sr-only"> 🐢 太慢
-          </label>
-        </div>
-      </div>
-
-      <button id="submitBtn" type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-2xl transition">
-        <span id="btnText">送出反饋</span>
-      </button>
-    </form>
-
-    <div id="success" class="success text-center py-12">
-      <div class="text-6xl mb-4">🎉</div>
-      <h2 class="text-xl font-bold text-green-600 mb-2">謝謝你的回饋！</h2>
-      <p class="text-gray-500 text-sm">老師已收到，繼續加油 💪</p>
-      <button onclick="location.reload()" class="mt-6 text-blue-600 underline text-sm">重新填寫</button>
+  <header>
+    <div class="header-left">
+      <div class="header-logo">📚 課堂即時反饋</div>
+      <div class="header-divider"></div>
+      <div class="header-sub">填完後老師會即時看到</div>
     </div>
-  </div>
+    <div class="header-badge">單次填寫</div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── 側邊選單 ── -->
+    <aside class="sidebar">
+      <div class="sidebar-label">填寫區塊</div>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <button class="nav-btn active" data-target="s-basic" onclick="goSection('s-basic')">
+            <span class="nav-number">1</span> 基本資料
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-target="s-learning" onclick="goSection('s-learning')">
+            <span class="nav-number">2</span> 學習狀況
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-target="s-pace" onclick="goSection('s-pace')">
+            <span class="nav-number">3</span> 課程節奏
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" data-target="s-review" onclick="goSection('s-review')">
+            <span class="nav-number">4</span> 確認送出
+          </button>
+        </li>
+      </ul>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>填寫進度</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── 內容區 ── -->
+    <div class="content">
+
+      <!-- Section 1：基本資料 -->
+      <div class="section active" id="s-basic">
+        <div class="section-header">
+          <div class="section-tag">第 1 區塊 / 共 3 區塊</div>
+          <div class="section-title">基本資料</div>
+          <div class="section-desc">這些欄位會附在送出的資料中，方便老師彙整。</div>
+        </div>
+
+        <div class="card">
+          <div class="field">
+            <label class="field-label">班級</label>
+            <input id="f-class" type="text" placeholder="例：行銷三甲">
+          </div>
+          <div class="row-2">
+            <div class="field">
+              <label class="field-label">姓名</label>
+              <input id="f-name" type="text" placeholder="你的姓名">
+            </div>
+            <div class="field">
+              <label class="field-label">學號</label>
+              <input id="f-id" type="text" placeholder="學號">
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <span></span>
+          <button class="btn-next" onclick="nextSection('s-basic','s-learning')">下一頁：學習狀況 →</button>
+        </div>
+      </div>
+
+      <!-- Section 2：學習狀況 -->
+      <div class="section" id="s-learning">
+        <div class="section-header">
+          <div class="section-tag">第 2 區塊 / 共 3 區塊</div>
+          <div class="section-title">學習狀況</div>
+          <div class="section-desc">請誠實填寫，老師看到後會調整教學。</div>
+        </div>
+
+        <div class="card">
+          <div class="field">
+            <label class="field-label">今天課程的整體理解程度</label>
+            <div class="emoji-group">
+              <input type="radio" name="r-understand" value="5" id="u5">
+              <label for="u5"><span class="emo">😄</span><span class="lbl">完全<br>理解</span></label>
+
+              <input type="radio" name="r-understand" value="4" id="u4">
+              <label for="u4"><span class="emo">🙂</span><span class="lbl">大致<br>理解</span></label>
+
+              <input type="radio" name="r-understand" value="3" id="u3">
+              <label for="u3"><span class="emo">😐</span><span class="lbl">有點<br>模糊</span></label>
+
+              <input type="radio" name="r-understand" value="2" id="u2">
+              <label for="u2"><span class="emo">😕</span><span class="lbl">不太<br>懂</span></label>
+
+              <input type="radio" name="r-understand" value="1" id="u1">
+              <label for="u1"><span class="emo">😵</span><span class="lbl">完全<br>不懂</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="field">
+            <label class="field-label">今天最難理解的概念是？<span class="field-hint">可空白</span></label>
+            <input id="f-hard" type="text" placeholder="例：某個公式、某個定義">
+          </div>
+          <div class="field">
+            <label class="field-label">想問老師的問題<span class="field-hint">可匿名</span></label>
+            <textarea id="f-question" rows="3" placeholder="任何疑問都可以寫，老師課後會統一回覆。"></textarea>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <button class="btn-prev" onclick="goSection('s-basic')">← 上一頁</button>
+          <button class="btn-next" onclick="nextSection('s-learning','s-pace')">下一頁：課程節奏 →</button>
+        </div>
+      </div>
+
+      <!-- Section 3：課程節奏 -->
+      <div class="section" id="s-pace">
+        <div class="section-header">
+          <div class="section-tag">第 3 區塊 / 共 3 區塊</div>
+          <div class="section-title">課程節奏</div>
+          <div class="section-desc">老師的教學速度對你來說如何？</div>
+        </div>
+
+        <div class="card">
+          <div class="field">
+            <label class="field-label">今天的上課速度</label>
+            <div class="btn-group">
+              <input type="radio" name="r-pace" value="太快" id="p1">
+              <label for="p1">🏃 太快</label>
+
+              <input type="radio" name="r-pace" value="剛好" id="p2">
+              <label for="p2">✅ 剛好</label>
+
+              <input type="radio" name="r-pace" value="太慢" id="p3">
+              <label for="p3">🐢 太慢</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <button class="btn-prev" onclick="goSection('s-learning')">← 上一頁</button>
+          <button class="btn-next" onclick="goReview()">下一頁：確認送出 →</button>
+        </div>
+      </div>
+
+      <!-- Section 4：確認送出 -->
+      <div class="section" id="s-review">
+        <div class="section-header">
+          <div class="section-tag">確認送出</div>
+          <div class="section-title">送出前請確認內容</div>
+          <div class="section-desc">確認無誤後按下「送出反饋」。</div>
+        </div>
+
+        <div class="card">
+          <table class="review-table" id="reviewTable">
+            <!-- 由 JS 動態填入 -->
+          </table>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+          <span id="btnText">送出反饋</span>
+        </button>
+
+        <div class="status-row">
+          <div class="status-dot ready" id="statusDot"></div>
+          <span id="statusText">尚未送出</span>
+        </div>
+
+        <div class="nav-actions" style="margin-top:16px;">
+          <button class="btn-prev" onclick="goSection('s-pace')">← 返回修改</button>
+          <span></span>
+        </div>
+      </div>
+
+      <!-- 成功畫面 -->
+      <div class="success-screen" id="successScreen">
+        <div class="big">🎉</div>
+        <h2>謝謝你的回饋！</h2>
+        <p>老師已收到你的意見<br>繼續加油 💪</p>
+        <button class="refill" onclick="location.reload()">重新填寫</button>
+      </div>
+
+    </div><!-- .content -->
+  </div><!-- .layout -->
 
   <script>
-    const form = document.getElementById('surveyForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const success = document.getElementById('success');
-
+    // ──────────────────────────────────────────
     // ↓↓↓ 把這行換成你第二步拿到的 Web App URL ↓↓↓
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwad41r-0RJXTbtRkD_CCbGokaZqiwAdDjsiT6WgFpagkVinxN-v4G8hY4oxguNatKB/exec';
+    const SCRIPT_URL = '這裡換成你的 Web App URL';
+    // ──────────────────────────────────────────
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
+    const SECTIONS = ['s-basic', 's-learning', 's-pace', 's-review'];
+
+    function goSection(id) {
+      SECTIONS.forEach(s => {
+        document.getElementById(s).classList.remove('active');
+        document.querySelector(`[data-target="${s}"]`).classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+      document.querySelector(`[data-target="${id}"]`).classList.add('active');
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextSection(from, to) {
+      markDone(from);
+      goSection(to);
+    }
+
+    function markDone(id) {
+      const btn = document.querySelector(`[data-target="${id}"]`);
+      btn.classList.add('done');
+    }
+
+    function updateProgress() {
+      const dones = document.querySelectorAll('.nav-btn.done').length;
+      const pct = Math.round((dones / 3) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressPct').textContent = pct + '%';
+    }
+
+    function getData() {
+      const understand = document.querySelector('input[name="r-understand"]:checked');
+      const pace = document.querySelector('input[name="r-pace"]:checked');
+      return {
+        '班級':     document.getElementById('f-class').value.trim(),
+        '姓名':     document.getElementById('f-name').value.trim(),
+        '學號':     document.getElementById('f-id').value.trim(),
+        '理解程度': understand ? understand.value : '',
+        '最難的概念': document.getElementById('f-hard').value.trim(),
+        '想問的問題': document.getElementById('f-question').value.trim(),
+        '課程節奏': pace ? pace.value : ''
+      };
+    }
+
+    const LABELS = {
+      '班級': '班級',
+      '姓名': '姓名',
+      '學號': '學號',
+      '理解程度': '理解程度',
+      '最難的概念': '最難的概念',
+      '想問的問題': '想問的問題',
+      '課程節奏': '課程節奏'
+    };
+
+    const UNDERSTAND_MAP = { '5':'😄 完全理解', '4':'🙂 大致理解', '3':'😐 有點模糊', '2':'😕 不太懂', '1':'😵 完全不懂' };
+
+    function goReview() {
+      markDone('s-pace');
+      const data = getData();
+      const tbody = document.getElementById('reviewTable');
+      tbody.innerHTML = Object.entries(data).map(([k, v]) => {
+        let display = v || '<span class="review-empty">（未填）</span>';
+        if (k === '理解程度' && v) display = UNDERSTAND_MAP[v] || v;
+        return `<tr><th>${LABELS[k]}</th><td>${display}</td></tr>`;
+      }).join('');
+      goSection('s-review');
+    }
+
+    async function submitForm() {
+      const data = getData();
+
+      // 基本驗證
+      if (!data['班級'] || !data['姓名'] || !data['學號']) {
+        alert('請回到「基本資料」填寫班級、姓名和學號。');
+        goSection('s-basic');
+        return;
+      }
+      if (!data['理解程度']) {
+        alert('請回到「學習狀況」選擇理解程度。');
+        goSection('s-learning');
+        return;
+      }
+      if (!data['課程節奏']) {
+        alert('請回到「課程節奏」選擇節奏。');
+        goSection('s-pace');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const dot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+
+      btn.disabled = true;
       btnText.textContent = '傳送中…';
+      statusText.textContent = '傳送中…';
+
+      // 組 FormData（對應 Sheets 欄位名稱）
+      const fd = new FormData();
+      Object.entries(data).forEach(([k, v]) => fd.append(k, v));
+
       try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          body: new FormData(form)
-        });
-        const data = await res.json();
-        if (data.result === 'success') {
-          form.style.display = 'none';
-          success.style.display = 'block';
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+        const json = await res.json();
+
+        if (json.result === 'success') {
+          document.querySelector('.content').innerHTML = '';
+          document.querySelector('.content').appendChild(
+            Object.assign(document.createElement('div'), {
+              className: 'success-screen',
+              style: 'display:block',
+              innerHTML: `<div class="big">🎉</div>
+                <h2>謝謝你的回饋！</h2>
+                <p>老師已收到你的意見<br>繼續加油 💪</p>
+                <button class="refill" onclick="location.reload()">重新填寫</button>`
+            })
+          );
         } else {
-          alert('提交失敗，請稍後再試');
+          alert('提交失敗，請稍後再試。');
+          btn.disabled = false;
+          btnText.textContent = '送出反饋';
+          statusText.textContent = '送出失敗，請重試';
         }
       } catch (err) {
-        alert('網路錯誤，請檢查網路');
-      } finally {
-        submitBtn.disabled = false;
+        alert('網路錯誤，請確認網路連線後再試。');
+        btn.disabled = false;
         btnText.textContent = '送出反饋';
+        statusText.textContent = '網路錯誤';
       }
-    });
+    }
   </script>
+
 </body>
 </html>
