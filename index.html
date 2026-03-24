@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課堂即時反饋</title>
+  <title>麥當勞個案</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -190,9 +190,18 @@
         <div class="section-desc">這些欄位會附在送出的資料中，方便老師彙整。</div>
       </div>
       <div class="card">
-        <div class="field">
-          <label class="field-label">班級</label>
-          <input id="f-class" type="text" placeholder="例：行銷三甲">
+        <div class="row-2">
+          <div class="field">
+            <label class="field-label">系級</label>
+            <input id="f-class" type="text" placeholder="">
+          </div>
+          <div class="field">
+            <label class="field-label">上課班級</label>
+            <div class="btn-group" style="margin-top:2px;">
+              <input type="radio" name="r-classtime" value="下午一點班" id="ct1"><label for="ct1">下午一點班</label>
+              <input type="radio" name="r-classtime" value="下午四點班" id="ct2"><label for="ct2">下午四點班</label>
+            </div>
+          </div>
         </div>
         <div class="row-3">
           <div class="field">
@@ -241,7 +250,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i1" value="其他" id="i1e"><label for="i1e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i1" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i1','cc-i1')"></textarea><div class="char-count" id="cc-i1">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i1" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i1','cc-i1')"></textarea><div class="char-count" id="cc-i1">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-basic')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i1','s-i2')">下一頁：議題 2 →</button></div>
     </div>
@@ -263,7 +272,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i2" value="其他" id="i2e"><label for="i2e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i2" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i2','cc-i2')"></textarea><div class="char-count" id="cc-i2">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i2" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i2','cc-i2')"></textarea><div class="char-count" id="cc-i2">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i1')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i2','s-i3')">下一頁：議題 3 →</button></div>
     </div>
@@ -285,7 +294,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i3" value="其他" id="i3e"><label for="i3e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i3" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i3','cc-i3')"></textarea><div class="char-count" id="cc-i3">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i3" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i3','cc-i3')"></textarea><div class="char-count" id="cc-i3">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i2')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i3','s-i4')">下一頁：議題 4 →</button></div>
     </div>
@@ -307,7 +316,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i4" value="其他" id="i4e"><label for="i4e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i4" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i4','cc-i4')"></textarea><div class="char-count" id="cc-i4">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i4" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i4','cc-i4')"></textarea><div class="char-count" id="cc-i4">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i3')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i4','s-i5')">下一頁：議題 5 →</button></div>
     </div>
@@ -329,7 +338,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i5" value="其他" id="i5e"><label for="i5e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i5" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i5','cc-i5')"></textarea><div class="char-count" id="cc-i5">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i5" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i5','cc-i5')"></textarea><div class="char-count" id="cc-i5">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i4')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i5','s-i6')">下一頁：議題 6 →</button></div>
     </div>
@@ -351,7 +360,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i6" value="其他" id="i6e"><label for="i6e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i6" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i6','cc-i6')"></textarea><div class="char-count" id="cc-i6">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i6" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i6','cc-i6')"></textarea><div class="char-count" id="cc-i6">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i5')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i6','s-i7')">下一頁：議題 7 →</button></div>
     </div>
@@ -373,7 +382,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i7" value="其他" id="i7e"><label for="i7e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i7" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i7','cc-i7')"></textarea><div class="char-count" id="cc-i7">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i7" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i7','cc-i7')"></textarea><div class="char-count" id="cc-i7">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i6')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i7','s-i8')">下一頁：議題 8 →</button></div>
     </div>
@@ -395,7 +404,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i8" value="其他" id="i8e"><label for="i8e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i8" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i8','cc-i8')"></textarea><div class="char-count" id="cc-i8">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i8" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i8','cc-i8')"></textarea><div class="char-count" id="cc-i8">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i7')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i8','s-i9')">下一頁：議題 9 →</button></div>
     </div>
@@ -417,7 +426,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i9" value="其他" id="i9e"><label for="i9e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i9" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i9','cc-i9')"></textarea><div class="char-count" id="cc-i9">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i9" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i9','cc-i9')"></textarea><div class="char-count" id="cc-i9">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i8')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i9','s-i10')">下一頁：議題 10 →</button></div>
     </div>
@@ -439,7 +448,7 @@
           </div>
           <div class="option-other"><input type="checkbox" name="i10" value="其他" id="i10e"><label for="i10e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
-        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i10" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i10','cc-i10')"></textarea><div class="char-count" id="cc-i10">0 字</div></div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i10" rows="5" placeholder="請說明你選擇上述選項的原因。引用個案中的事實來支持你的論點與分析邏輯，會最有說服力……" oninput="countChars('f-i10','cc-i10')"></textarea><div class="char-count" id="cc-i10">0 字</div></div>
       </div>
       <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i9')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i10','s-learning')">下一頁：學習狀況 →</button></div>
     </div>
@@ -469,8 +478,8 @@
           <input id="f-hard" type="text" placeholder="必填。例如，一個概念，一個定義，或寫不超過六十字的一些話。">
         </div>
         <div class="field">
-          <label class="field-label">想問老師的問題，或是給老師建議<span class="field-hint">與課程內容有關的，可空白</span></label>
-          <textarea id="f-question" rows="3" placeholder="老師課後會統一回覆。"></textarea>
+          <label class="field-label">想問老師的問題，或是給老師建議與鼓勵<span class="field-hint">與課程內容有關的，可空白</span></label>
+          <textarea id="f-question" rows="3" placeholder="也可以報告小組討論狀況，例如，缺席同學大名，或是不（太）參與的同學。"></textarea>
         </div>
       </div>
       <div class="nav-actions">
@@ -589,8 +598,10 @@
   function getData() {
     const understand = document.querySelector('input[name="r-understand"]:checked');
     const pace = document.querySelector('input[name="r-pace"]:checked');
+    const classtime = document.querySelector('input[name="r-classtime"]:checked');
     const d = {
-      '班級':         document.getElementById('f-class').value.trim(),
+      '系級':         document.getElementById('f-class').value.trim(),
+      '上課班級':     classtime ? classtime.value : '',
       '姓名':         document.getElementById('f-name').value.trim(),
       '學號':         document.getElementById('f-id').value.trim(),
       '組別':         document.getElementById('f-group').value.trim(),
@@ -613,7 +624,7 @@
     '3':'😐 有點模糊','2':'😕 不太懂','1':'😵 完全不懂'
   };
   const LABELS = {
-    '班級':'班級','姓名':'姓名','學號':'學號','組別':'組別',
+    '系級':'系級','上課班級':'上課班級','姓名':'姓名','學號':'學號','組別':'組別',
     'Gmail':'Gmail','開始填寫時間':'開始填寫時間',
     '理解程度':'理解程度',
     '最有感的一句話':'最有感的一句話',
@@ -641,8 +652,11 @@
     const data = getData();
 
     // 驗證
-    if (!data['班級'] || !data['姓名'] || !data['學號']) {
-      alert('請回到「基本資料」填寫班級、姓名和學號。'); goSection('s-basic'); return;
+    if (!data['系級'] || !data['姓名'] || !data['學號']) {
+      alert('請回到「基本資料」填寫系級、姓名和學號。'); goSection('s-basic'); return;
+    }
+    if (!data['上課班級']) {
+      alert('請回到「基本資料」選擇上課班級。'); goSection('s-basic'); return;
     }
     if (!data['組別']) {
       alert('請回到「基本資料」填寫組別。'); goSection('s-basic'); return;
