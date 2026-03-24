@@ -8,770 +8,698 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --navy: #1a1a2e;
-      --navy-mid: #16213e;
-      --accent: #e8c547;
-      --accent-dim: #f5e27a;
-      --text: #1a1a2e;
-      --text-muted: #6b7280;
-      --border: #e5e7eb;
-      --bg: #f7f7f9;
-      --white: #ffffff;
-      --success: #059669;
-      --radius: 10px;
+      --navy: #1a1a2e; --text: #1a1a2e; --text-muted: #6b7280;
+      --border: #e5e7eb; --bg: #f7f7f9; --success: #059669; --radius: 10px;
     }
+    body { font-family: 'Noto Sans TC','Helvetica Neue',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
-    body {
-      font-family: 'Noto Sans TC', 'Helvetica Neue', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ── 頂部 header ── */
-    header {
-      background: var(--navy);
-      color: white;
-      padding: 0 24px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.25);
-    }
+    header { background: var(--navy); color: white; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,.25); }
     .header-left { display: flex; align-items: center; gap: 12px; }
-    .header-logo {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: white;
-    }
-    .header-divider {
-      width: 1px; height: 18px;
-      background: rgba(255,255,255,0.2);
-    }
-    .header-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      font-weight: 400;
-    }
-    .header-badge {
-      font-size: 11px;
-      background: rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.7);
-      padding: 3px 10px;
-      border-radius: 99px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
+    .header-logo { font-size: 18px; font-weight: 700; color: white; }
+    .header-divider { width: 1px; height: 18px; background: rgba(255,255,255,.2); }
+    .header-sub { font-size: 12px; color: rgba(255,255,255,.55); }
+    .header-badge { font-size: 11px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); padding: 3px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,.15); }
 
-    /* ── 主體佈局 ── */
-    .layout {
-      display: flex;
-      flex: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 32px 16px 64px;
-      gap: 24px;
-      align-items: flex-start;
-    }
+    .layout { display: flex; flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 32px 16px 64px; gap: 24px; align-items: flex-start; }
 
-    /* ── 側邊選單 ── */
-    .sidebar {
-      width: 200px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 72px;
-    }
-    .sidebar-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      padding: 0 12px 8px;
-    }
+    .sidebar { width: 196px; flex-shrink: 0; position: sticky; top: 72px; }
+    .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; color: var(--text-muted); text-transform: uppercase; padding: 0 12px 8px; }
     .nav-list { list-style: none; }
-    .nav-item {
-      margin-bottom: 2px;
-    }
-    .nav-btn {
-      width: 100%;
-      text-align: left;
-      padding: 10px 14px;
-      border: none;
-      background: transparent;
-      border-radius: var(--radius);
-      font-size: 13px;
-      font-family: inherit;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.15s;
-      font-weight: 500;
-      position: relative;
-    }
-    .nav-btn:hover {
-      background: white;
-      color: var(--text);
-    }
-    .nav-btn.active {
-      background: var(--navy);
-      color: white;
-    }
-    .nav-btn.done {
-      color: var(--success);
-    }
-    .nav-btn.done::after {
-      content: '✓';
-      margin-left: auto;
-      font-size: 12px;
-    }
-    .nav-icon { font-size: 15px; flex-shrink: 0; }
-    .nav-number {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.06);
-      font-size: 11px;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .nav-btn.active .nav-number {
-      background: rgba(255,255,255,0.2);
-    }
+    .nav-item { margin-bottom: 2px; }
+    .nav-btn { width: 100%; text-align: left; padding: 9px 12px; border: none; background: transparent; border-radius: var(--radius); font-size: 12.5px; font-family: inherit; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 9px; transition: all .15s; font-weight: 500; }
+    .nav-btn:hover { background: white; color: var(--text); }
+    .nav-btn.active { background: var(--navy); color: white; }
+    .nav-btn.done { color: var(--success); }
+    .nav-btn.done::after { content: '✓'; margin-left: auto; font-size: 12px; }
+    .nav-number { width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,.06); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-btn.active .nav-number { background: rgba(255,255,255,.2); }
+    .progress-wrap { margin-top: 20px; padding: 0 12px; }
+    .progress-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .progress-bar-bg { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--navy); border-radius: 99px; transition: width .4s ease; width: 0%; }
 
-    /* 進度條 */
-    .progress-wrap {
-      margin-top: 20px;
-      padding: 0 12px;
-    }
-    .progress-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .progress-bar-bg {
-      height: 4px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background: var(--navy);
-      border-radius: 99px;
-      transition: width 0.4s ease;
-      width: 0%;
-    }
-
-    /* ── 內容區 ── */
     .content { flex: 1; min-width: 0; }
-
-    /* 區塊 section */
     .section { display: none; }
     .section.active { display: block; }
+    .section-header { margin-bottom: 20px; }
+    .section-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); background: white; border: 1px solid var(--border); padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; }
+    .section-title { font-size: 20px; font-weight: 700; line-height: 1.4; }
+    .section-desc { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.7; }
 
-    .section-header {
-      margin-bottom: 20px;
-    }
-    .section-tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      background: white;
-      border: 1px solid var(--border);
-      padding: 3px 10px;
-      border-radius: 99px;
-      margin-bottom: 10px;
-    }
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.3;
-    }
-    .section-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      line-height: 1.6;
-    }
-
-    /* 卡片 */
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 14px;
-    }
-
-    /* 欄位 */
+    .card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 14px; }
     .field { margin-bottom: 20px; }
     .field:last-child { margin-bottom: 0; }
-
-    .field-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 8px;
+    .field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .field-hint { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+    input[type="text"], input[type="number"], input[type="email"], input[type="time"], textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: inherit; color: var(--text); background: #fafafa;
+      outline: none; transition: border .15s,background .15s; resize: vertical;
     }
-    .field-hint {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 400;
-      margin-left: 4px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text);
-      background: #fafafa;
-      outline: none;
-      transition: border 0.15s, background 0.15s;
-    }
-    input:focus, textarea:focus {
-      border-color: var(--navy);
-      background: white;
-    }
-
+    input:focus, textarea:focus { border-color: var(--navy); background: white; }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
-    /* Emoji 理解程度 */
+    /* Emoji */
     .emoji-group { display: flex; gap: 8px; }
     .emoji-group input[type="radio"] { display: none; }
-    .emoji-group label {
-      flex: 1;
-      text-align: center;
-      padding: 14px 4px 10px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.15s;
-      background: #fafafa;
-    }
+    .emoji-group label { flex: 1; text-align: center; padding: 14px 4px 10px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; background: #fafafa; }
     .emoji-group label .emo { font-size: 24px; display: block; margin-bottom: 5px; }
     .emoji-group label .lbl { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
-    .emoji-group input:checked + label {
-      border-color: var(--navy);
-      background: var(--navy);
-    }
-    .emoji-group input:checked + label .lbl { color: rgba(255,255,255,0.8); }
+    .emoji-group input:checked + label { border-color: var(--navy); background: var(--navy); }
+    .emoji-group input:checked + label .lbl { color: rgba(255,255,255,.8); }
 
-    /* 按鈕式單選 / 複選 */
+    /* Pill */
     .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-    .btn-group input[type="radio"],
-    .btn-group input[type="checkbox"] { display: none; }
-    .btn-group label {
-      padding: 9px 18px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: all 0.15s;
-      background: white;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .btn-group input:checked + label {
-      border-color: var(--navy);
-      background: var(--navy);
-      color: white;
-    }
+    .btn-group input[type="radio"] { display: none; }
+    .btn-group label { padding: 9px 18px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; cursor: pointer; transition: all .15s; background: white; color: var(--text-muted); font-weight: 500; }
+    .btn-group input:checked + label { border-color: var(--navy); background: var(--navy); color: white; }
 
-    /* 下一頁 / 上一頁按鈕 */
-    .nav-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .btn-prev {
-      padding: 10px 20px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: white;
-      font-size: 13px;
-      font-family: inherit;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.15s;
-    }
+    /* 2×2 cards */
+    .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+    .option-grid input[type="checkbox"] { display: none; }
+    .option-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all .15s; background: #fafafa; display: block; }
+    .option-card:hover { border-color: #9ca3af; background: white; }
+    .option-grid input:checked + .option-card { border-color: var(--navy); background: #f0f0f8; }
+    .opt-label { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .opt-check { width: 16px; height: 16px; border: 1.5px solid var(--border); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; font-size: 10px; }
+    .option-grid input:checked + .option-card .opt-check { background: var(--navy); border-color: var(--navy); color: white; }
+    .option-grid input:checked + .option-card .opt-check::after { content: '✓'; }
+    .opt-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .opt-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+    .option-other { margin-bottom: 16px; }
+    .option-other input[type="checkbox"] { display: none; }
+    .option-other-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 16px; cursor: pointer; background: #fafafa; display: flex; align-items: center; gap: 10px; transition: all .15s; }
+    .option-other-card:hover { border-color: #9ca3af; background: white; }
+    .option-other input:checked + .option-other-card { border-color: var(--navy); background: #f0f0f8; }
+    .option-other input:checked + .option-other-card .opt-check { background: var(--navy); border-color: var(--navy); color: white; }
+    .option-other input:checked + .option-other-card .opt-check::after { content: '✓'; }
+    .opt-other-text { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+
+    .char-count { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 5px; }
+    .char-count.warn { color: #ef4444; font-weight: 600; }
+    .char-count.ok { color: var(--success); }
+
+    .nav-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+    .btn-prev { padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 8px; background: white; font-size: 13px; font-family: inherit; color: var(--text-muted); cursor: pointer; font-weight: 500; transition: all .15s; }
     .btn-prev:hover { border-color: var(--navy); color: var(--navy); }
-    .btn-next {
-      padding: 11px 28px;
-      border: none;
-      border-radius: 8px;
-      background: var(--navy);
-      color: white;
-      font-size: 14px;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
+    .btn-next { padding: 11px 28px; border: none; border-radius: 8px; background: var(--navy); color: white; font-size: 14px; font-family: inherit; font-weight: 600; cursor: pointer; transition: background .15s; }
     .btn-next:hover { background: #2d2d4e; }
 
-    /* 狀態列 */
-    .status-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 12px;
-    }
-    .status-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--border);
-      flex-shrink: 0;
-    }
+    .status-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
     .status-dot.ready { background: #f59e0b; }
-    .status-dot.sent  { background: var(--success); }
-
-    /* 送出按鈕 */
-    .submit-btn {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: var(--navy);
-      color: white;
-      font-size: 15px;
-      font-family: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s;
-      letter-spacing: 0.03em;
-    }
+    .submit-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: var(--navy); color: white; font-size: 15px; font-family: inherit; font-weight: 700; cursor: pointer; transition: background .15s; }
     .submit-btn:hover { background: #2d2d4e; }
     .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
 
-    /* 確認預覽 */
     .review-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .review-table tr { border-bottom: 1px solid var(--border); }
     .review-table tr:last-child { border-bottom: none; }
-    .review-table th {
-      text-align: left;
-      padding: 10px 12px;
-      color: var(--text-muted);
-      font-weight: 600;
-      width: 35%;
-      background: #fafafa;
-    }
-    .review-table td {
-      padding: 10px 12px;
-      color: var(--text);
-      font-weight: 500;
-    }
+    .review-table th { text-align: left; padding: 10px 12px; color: var(--text-muted); font-weight: 600; width: 30%; background: #fafafa; vertical-align: top; }
+    .review-table td { padding: 10px 12px; color: var(--text); font-weight: 500; }
     .review-empty { color: #d1d5db; font-style: italic; }
 
-    /* 成功畫面 */
-    .success-screen {
-      display: none;
-      text-align: center;
-      padding: 64px 24px;
-    }
+    .success-screen { display: none; text-align: center; padding: 64px 24px; }
     .success-screen .big { font-size: 56px; margin-bottom: 20px; }
-    .success-screen h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--success);
-      margin-bottom: 10px;
-    }
+    .success-screen h2 { font-size: 22px; font-weight: 700; color: var(--success); margin-bottom: 10px; }
     .success-screen p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
-    .success-screen .refill {
-      margin-top: 28px;
-      font-size: 13px;
-      color: var(--navy);
-      background: none;
-      border: none;
-      font-family: inherit;
-      cursor: pointer;
-      text-decoration: underline;
-    }
+    .success-screen .refill { margin-top: 28px; font-size: 13px; color: var(--navy); background: none; border: none; font-family: inherit; cursor: pointer; text-decoration: underline; }
 
-    /* RWD */
+    /* 時間提示 */
+    .time-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+
     @media (max-width: 640px) {
       .layout { flex-direction: column; padding: 16px 12px 48px; gap: 0; }
-      .sidebar {
-        width: 100%;
-        position: static;
-        margin-bottom: 16px;
-      }
-      .nav-list { display: flex; flex-wrap: wrap; gap: 6px; }
-      .nav-btn { padding: 7px 12px; font-size: 12px; }
-      .progress-wrap { display: none; }
-      .sidebar-label { display: none; }
+      .sidebar { width: 100%; position: static; margin-bottom: 16px; }
+      .nav-list { display: flex; flex-wrap: wrap; gap: 5px; }
+      .nav-btn { padding: 6px 10px; font-size: 11px; }
+      .progress-wrap, .sidebar-label { display: none; }
       .emoji-group { gap: 5px; }
-      .row-2 { grid-template-columns: 1fr; }
+      .row-2, .row-3, .option-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-left">
-      <div class="header-logo">📚 課堂即時反饋</div>
-      <div class="header-divider"></div>
-      <div class="header-sub">填完後老師會即時看到</div>
+<header>
+  <div class="header-left">
+    <div class="header-logo">📚 課堂即時反饋</div>
+    <div class="header-divider"></div>
+    <div class="header-sub">填完後老師會即時看到</div>
+  </div>
+  <div class="header-badge">單次填寫</div>
+</header>
+
+<div class="layout">
+
+  <!-- 側邊選單：順序 basic → i1~i10 → learning → pace → review -->
+  <aside class="sidebar">
+    <div class="sidebar-label">填寫區塊</div>
+    <ul class="nav-list">
+      <li class="nav-item"><button class="nav-btn active" data-target="s-basic"    onclick="goSection('s-basic')">   <span class="nav-number">1</span>  基本資料</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i1"       onclick="goSection('s-i1')">      <span class="nav-number">2</span>  議題 1</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i2"       onclick="goSection('s-i2')">      <span class="nav-number">3</span>  議題 2</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i3"       onclick="goSection('s-i3')">      <span class="nav-number">4</span>  議題 3</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i4"       onclick="goSection('s-i4')">      <span class="nav-number">5</span>  議題 4</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i5"       onclick="goSection('s-i5')">      <span class="nav-number">6</span>  議題 5</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i6"       onclick="goSection('s-i6')">      <span class="nav-number">7</span>  議題 6</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i7"       onclick="goSection('s-i7')">      <span class="nav-number">8</span>  議題 7</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i8"       onclick="goSection('s-i8')">      <span class="nav-number">9</span>  議題 8</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i9"       onclick="goSection('s-i9')">      <span class="nav-number">10</span> 議題 9</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-i10"      onclick="goSection('s-i10')">     <span class="nav-number">11</span> 議題 10</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-learning" onclick="goSection('s-learning')"><span class="nav-number">12</span> 學習狀況</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-pace"     onclick="goSection('s-pace')">    <span class="nav-number">13</span> 課程節奏</button></li>
+      <li class="nav-item"><button class="nav-btn"        data-target="s-review"   onclick="goSection('s-review')">  <span class="nav-number">✓</span>  確認送出</button></li>
+    </ul>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>填寫進度</span><span id="progressPct">0%</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
     </div>
-    <div class="header-badge">單次填寫</div>
-  </header>
+  </aside>
 
-  <div class="layout">
+  <div class="content">
 
-    <!-- ── 側邊選單 ── -->
-    <aside class="sidebar">
-      <div class="sidebar-label">填寫區塊</div>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <button class="nav-btn active" data-target="s-basic" onclick="goSection('s-basic')">
-            <span class="nav-number">1</span> 基本資料
-          </button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" data-target="s-learning" onclick="goSection('s-learning')">
-            <span class="nav-number">2</span> 學習狀況
-          </button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" data-target="s-pace" onclick="goSection('s-pace')">
-            <span class="nav-number">3</span> 課程節奏
-          </button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" data-target="s-review" onclick="goSection('s-review')">
-            <span class="nav-number">4</span> 確認送出
-          </button>
-        </li>
-      </ul>
-
-      <div class="progress-wrap">
-        <div class="progress-label">
-          <span>填寫進度</span>
-          <span id="progressPct">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
+    <!-- ① 基本資料 -->
+    <div class="section active" id="s-basic">
+      <div class="section-header">
+        <div class="section-tag">第 1 區塊 / 共 13 區塊</div>
+        <div class="section-title">基本資料</div>
+        <div class="section-desc">這些欄位會附在送出的資料中，方便老師彙整。</div>
       </div>
-    </aside>
-
-    <!-- ── 內容區 ── -->
-    <div class="content">
-
-      <!-- Section 1：基本資料 -->
-      <div class="section active" id="s-basic">
-        <div class="section-header">
-          <div class="section-tag">第 1 區塊 / 共 3 區塊</div>
-          <div class="section-title">基本資料</div>
-          <div class="section-desc">這些欄位會附在送出的資料中，方便老師彙整。</div>
+      <div class="card">
+        <div class="field">
+          <label class="field-label">班級</label>
+          <input id="f-class" type="text" placeholder="例：行銷三甲">
         </div>
-
-        <div class="card">
+        <div class="row-3">
           <div class="field">
-            <label class="field-label">班級</label>
-            <input id="f-class" type="text" placeholder="例：行銷三甲">
-          </div>
-          <div class="row-2">
-            <div class="field">
-              <label class="field-label">姓名</label>
-              <input id="f-name" type="text" placeholder="你的姓名">
-            </div>
-            <div class="field">
-              <label class="field-label">學號</label>
-              <input id="f-id" type="text" placeholder="學號">
-            </div>
-          </div>
-        </div>
-
-        <div class="nav-actions">
-          <span></span>
-          <button class="btn-next" onclick="nextSection('s-basic','s-learning')">下一頁：學習狀況 →</button>
-        </div>
-      </div>
-
-      <!-- Section 2：學習狀況 -->
-      <div class="section" id="s-learning">
-        <div class="section-header">
-          <div class="section-tag">第 2 區塊 / 共 3 區塊</div>
-          <div class="section-title">學習狀況</div>
-          <div class="section-desc">請誠實填寫，老師看到後會調整教學。</div>
-        </div>
-
-        <div class="card">
-          <div class="field">
-            <label class="field-label">今天課程的整體理解程度</label>
-            <div class="emoji-group">
-              <input type="radio" name="r-understand" value="5" id="u5">
-              <label for="u5"><span class="emo">😄</span><span class="lbl">完全<br>理解</span></label>
-
-              <input type="radio" name="r-understand" value="4" id="u4">
-              <label for="u4"><span class="emo">🙂</span><span class="lbl">大致<br>理解</span></label>
-
-              <input type="radio" name="r-understand" value="3" id="u3">
-              <label for="u3"><span class="emo">😐</span><span class="lbl">有點<br>模糊</span></label>
-
-              <input type="radio" name="r-understand" value="2" id="u2">
-              <label for="u2"><span class="emo">😕</span><span class="lbl">不太<br>懂</span></label>
-
-              <input type="radio" name="r-understand" value="1" id="u1">
-              <label for="u1"><span class="emo">😵</span><span class="lbl">完全<br>不懂</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="field">
-            <label class="field-label">今天最難理解的概念是？<span class="field-hint">可空白</span></label>
-            <input id="f-hard" type="text" placeholder="例：某個公式、某個定義">
+            <label class="field-label">姓名</label>
+            <input id="f-name" type="text" placeholder="你的姓名">
           </div>
           <div class="field">
-            <label class="field-label">想問老師的問題<span class="field-hint">可匿名</span></label>
-            <textarea id="f-question" rows="3" placeholder="任何疑問都可以寫，老師課後會統一回覆。"></textarea>
+            <label class="field-label">學號</label>
+            <input id="f-id" type="text" placeholder="學號">
           </div>
-        </div>
-
-        <div class="nav-actions">
-          <button class="btn-prev" onclick="goSection('s-basic')">← 上一頁</button>
-          <button class="btn-next" onclick="nextSection('s-learning','s-pace')">下一頁：課程節奏 →</button>
-        </div>
-      </div>
-
-      <!-- Section 3：課程節奏 -->
-      <div class="section" id="s-pace">
-        <div class="section-header">
-          <div class="section-tag">第 3 區塊 / 共 3 區塊</div>
-          <div class="section-title">課程節奏</div>
-          <div class="section-desc">老師的教學速度對你來說如何？</div>
-        </div>
-
-        <div class="card">
           <div class="field">
-            <label class="field-label">今天的上課速度</label>
-            <div class="btn-group">
-              <input type="radio" name="r-pace" value="太快" id="p1">
-              <label for="p1">🏃 太快</label>
-
-              <input type="radio" name="r-pace" value="剛好" id="p2">
-              <label for="p2">✅ 剛好</label>
-
-              <input type="radio" name="r-pace" value="太慢" id="p3">
-              <label for="p3">🐢 太慢</label>
-            </div>
+            <label class="field-label">組別<span class="field-hint">只填數字</span></label>
+            <input id="f-group" type="number" min="1" max="99" placeholder="例：3">
           </div>
         </div>
-
-        <div class="nav-actions">
-          <button class="btn-prev" onclick="goSection('s-learning')">← 上一頁</button>
-          <button class="btn-next" onclick="goReview()">下一頁：確認送出 →</button>
+        <div class="field">
+          <label class="field-label">Gmail<span class="field-hint">您登入 Google Meet 的信箱</span></label>
+          <input id="f-gmail" type="email" placeholder="例：yourname@gmail.com">
+        </div>
+        <div class="field">
+          <label class="field-label">開始填寫資料的時間<span class="field-hint">幾點幾分，請勿亂填以免與系統時間差太多</span></label>
+          <input id="f-starttime" type="time">
+          <div class="time-hint">系統目前時間：<span id="currentTime">--:--</span></div>
         </div>
       </div>
+      <div class="nav-actions">
+        <span></span>
+        <button class="btn-next" onclick="nextSection('s-basic','s-i1')">下一頁：議題 1 →</button>
+      </div>
+    </div>
 
-      <!-- Section 4：確認送出 -->
-      <div class="section" id="s-review">
-        <div class="section-header">
-          <div class="section-tag">確認送出</div>
-          <div class="section-title">送出前請確認內容</div>
-          <div class="section-desc">確認無誤後按下「送出反饋」。</div>
+    <!-- ② 議題 1 -->
+    <div class="section" id="s-i1">
+      <div class="section-header">
+        <div class="section-tag">第 2 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 1：「格林柏格法則」的邏輯盲點</div>
+        <div class="section-desc">麥當勞高層深信「分店越密集 = 顧客越方便 = 消費次數會倍增」的格林柏格法則。你認為這個假設最終失敗的最核心原因是什麼？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i1" value="A" id="i1a"><label for="i1a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜需求總量面</div><div class="opt-title">高估了市場的總體胃口</div><div class="opt-desc">忽略了市場需求有其絕對上限，消費者不會因為店多了就吃更多。</div></label>
+            <input type="checkbox" name="i1" value="B" id="i1b"><label for="i1b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜品牌心理面</div><div class="opt-title">過度隨手可得，喪失稀缺性</div><div class="opt-desc">誤判消費者心理，「到處都有」反而讓品牌淪為廉價感。</div></label>
+            <input type="checkbox" name="i1" value="C" id="i1c"><label for="i1c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜外部競爭面</div><div class="opt-title">對手展開報復性促銷</div><div class="opt-desc">忽略了競爭對手（如漢堡王、溫蒂漢堡）會因地盤被侵門踏戶而反擊。</div></label>
+            <input type="checkbox" name="i1" value="D" id="i1d"><label for="i1d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜內部管理面</div><div class="opt-title">加盟主群起反抗</div><div class="opt-desc">單店獲利被稀釋後，加盟主將從內部瓦解這個策略。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i1" value="其他" id="i1e"><label for="i1e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i1" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i1','cc-i1')"></textarea><div class="char-count" id="cc-i1">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-basic')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i1','s-i2')">下一頁：議題 2 →</button></div>
+    </div>
 
-        <div class="card">
-          <table class="review-table" id="reviewTable">
-            <!-- 由 JS 動態填入 -->
-          </table>
+    <!-- ③ 議題 2 -->
+    <div class="section" id="s-i2">
+      <div class="section-header">
+        <div class="section-tag">第 3 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 2：「衛星餐廳」與收購店面的擴張策略</div>
+        <div class="section-desc">麥當勞大舉在沃爾瑪、醫院開設小型「衛星餐廳」，甚至買下對手 Roy Rogers 的 184 家舊店面來改裝。這種擴展方式最大的隱憂是什麼？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i2" value="A" id="i2a"><label for="i2a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜品牌體驗</div><div class="opt-title">標準化體驗被破壞</div><div class="opt-desc">破壞長期建立的「一致性硬體體驗」，讓品牌形象變得破碎。</div></label>
+            <input type="checkbox" name="i2" value="B" id="i2b"><label for="i2b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜目標客群</div><div class="opt-title">通路情境不符</div><div class="opt-desc">去五金行或醫院的人，當下未必有吃大型速食套餐的心情與需求。</div></label>
+            <input type="checkbox" name="i2" value="C" id="i2c"><label for="i2c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜後勤物流</div><div class="opt-title">補給複雜度大幅提升</div><div class="opt-desc">零散且非標準化的店面，大幅增加原物料配送與後勤補給的複雜度。</div></label>
+            <input type="checkbox" name="i2" value="D" id="i2d"><label for="i2d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜財務回收</div><div class="opt-title">沉沒成本高、難以回本</div><div class="opt-desc">收購與改裝成本極高，但小型店面客單價過低，財務回收困難。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i2" value="其他" id="i2e"><label for="i2e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i2" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i2','cc-i2')"></textarea><div class="char-count" id="cc-i2">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i1')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i2','s-i3')">下一頁：議題 3 →</button></div>
+    </div>
 
-        <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-          <span id="btnText">送出反饋</span>
-        </button>
-
-        <div class="status-row">
-          <div class="status-dot ready" id="statusDot"></div>
-          <span id="statusText">尚未送出</span>
+    <!-- ④ 議題 3 -->
+    <div class="section" id="s-i3">
+      <div class="section-header">
+        <div class="section-tag">第 4 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 3：面對海外市場的「無限樂觀」</div>
+        <div class="section-desc">麥當勞曾認為「全球 99% 的人還沒吃過麥當勞」，並將海外視為救命稻草，但最終也面臨衰退。你認為在國際市場擴張受挫的最主要原因？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i3" value="A" id="i3a"><label for="i3a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜在地競爭者</div><div class="opt-title">本土品牌的防禦力</div><div class="opt-desc">低估了各國本土品牌的韌性（如德國傳統家庭式麵包店的逆襲）。</div></label>
+            <input type="checkbox" name="i3" value="B" id="i3b"><label for="i3b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜宏觀與公衛風險</div><div class="opt-title">不可控的跨國宏觀危機</div><div class="opt-desc">忽視了跨國營運中難以預測的危機（如歐洲狂牛症重創需求）。</div></label>
+            <input type="checkbox" name="i3" value="C" id="i3c"><label for="i3c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜人口結構改變</div><div class="opt-title">核心客群萎縮</div><div class="opt-desc">忽略長期人口紅利消失（如日本少子化導致家庭客減少）。</div></label>
+            <input type="checkbox" name="i3" value="D" id="i3d"><label for="i3d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜基礎設施成本</div><div class="opt-title">新興市場重資產投資過重</div><div class="opt-desc">在俄羅斯等市場斥資自建食材工廠（達 4,500 萬美元），拉長回本期。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i3" value="其他" id="i3e"><label for="i3e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
         </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i3" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i3','cc-i3')"></textarea><div class="char-count" id="cc-i3">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i2')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i3','s-i4')">下一頁：議題 4 →</button></div>
+    </div>
 
-        <div class="nav-actions" style="margin-top:16px;">
-          <button class="btn-prev" onclick="goSection('s-pace')">← 返回修改</button>
-          <span></span>
+    <!-- ⑤ 議題 4 -->
+    <div class="section" id="s-i4">
+      <div class="section-header">
+        <div class="section-tag">第 5 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 4：「同類相食」下的代理問題</div>
+        <div class="section-desc">加盟主抱怨總部過度展店導致單店營業額下滑 30%。造成總部與加盟主在這件事上「利益嚴重衝突」的最根本原因是什麼？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i4" value="A" id="i4a"><label for="i4a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜利潤結構錯位</div><div class="opt-title">總部抽成 vs. 加盟主淨利</div><div class="opt-desc">總部獲利來自「整體商圈總營收」的抽成，加盟主只在乎「自身單店」的淨利。</div></label>
+            <input type="checkbox" name="i4" value="B" id="i4b"><label for="i4b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜數據分析落差</div><div class="opt-title">選址系統過於樂觀</div><div class="opt-desc">總部選址評估系統沒有精準計算出新舊店之間的「顧客重疊率」。</div></label>
+            <input type="checkbox" name="i4" value="C" id="i4c"><label for="i4c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜合約保障漏洞</div><div class="opt-title">缺乏商圈保護條款</div><div class="opt-desc">早期加盟合約中，缺乏對加盟主「專屬商圈保護範圍」的嚴格法規界定。</div></label>
+            <input type="checkbox" name="i4" value="D" id="i4d"><label for="i4d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜產品吸引力不足</div><div class="opt-title">新店搶舊店的老客人</div><div class="opt-desc">缺乏具爆發力的新產品，新店無法創造新客源，只能搶舊店的老客人。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i4" value="其他" id="i4e"><label for="i4e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i4" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i4','cc-i4')"></textarea><div class="char-count" id="cc-i4">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i3')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i4','s-i5')">下一頁：議題 5 →</button></div>
+    </div>
+
+    <!-- ⑥ 議題 5 -->
+    <div class="section" id="s-i5">
+      <div class="section-header">
+        <div class="section-tag">第 6 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 5：「連鎖 2000」高壓政策的反效果</div>
+        <div class="section-desc">為了控管品質，總部推出「連鎖 2000」政策，實施 A～F 評等並強制單一價格，結果引發更嚴重的反彈。失敗的關鍵為何？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i5" value="A" id="i5a"><label for="i5a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜剝奪定價權</div><div class="opt-title">抹殺彈性定價的自主權</div><div class="opt-desc">抹殺了加盟主因應各地商圈收入差異，進行彈性定價的營運自主權。</div></label>
+            <input type="checkbox" name="i5" value="B" id="i5b"><label for="i5b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜評鑑公平性</div><div class="opt-title">評等制度主觀且被濫用</div><div class="opt-desc">被加盟主視為總部用來限制展店權利的政治工具，而非客觀的品質評鑑。</div></label>
+            <input type="checkbox" name="i5" value="C" id="i5c"><label for="i5c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜信任關係破裂</div><div class="opt-title">夥伴關係降格為監視關係</div><div class="opt-desc">將原本平等的「夥伴關係」降格為「上對下的監視關係」，徹底摧毀心理契約。</div></label>
+            <input type="checkbox" name="i5" value="D" id="i5d"><label for="i5d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜治標不治本</div><div class="opt-title">只要求提升，不提供協助</div><div class="opt-desc">政策只要求加盟主提升標準，總部卻沒有提供相應的資金補貼或實質協助。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i5" value="其他" id="i5e"><label for="i5e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i5" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i5','cc-i5')"></textarea><div class="char-count" id="cc-i5">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i4')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i5','s-i6')">下一頁：議題 6 →</button></div>
+    </div>
+
+    <!-- ⑦ 議題 6 -->
+    <div class="section" id="s-i6">
+      <div class="section-header">
+        <div class="section-tag">第 7 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 6：服務品質與滿意度崩盤</div>
+        <div class="section-desc">密西根大學調查顯示麥當勞成為表現最差的速食店，服務怠慢、環境骯髒。一向以嚴謹控管自豪的麥當勞，為何會失控？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i6" value="A" id="i6a"><label for="i6a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜人才培育脫節</div><div class="opt-title">培訓速度跟不上展店</div><div class="opt-desc">展店速度過快（每天開 6-8 家），中基層店經理的培訓速度完全無法跟上。</div></label>
+            <input type="checkbox" name="i6" value="B" id="i6b"><label for="i6b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜總體勞動市場</div><div class="opt-title">低失業率，難招優質人才</div><div class="opt-desc">當時處於低失業率時期，企業極難招募到高素質的基層服務人員。</div></label>
+            <input type="checkbox" name="i6" value="C" id="i6c"><label for="i6c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜作業系統干擾</div><div class="opt-title">新廚房系統犧牲供餐速度</div><div class="opt-desc">「為你特製」新廚房系統大幅增加了料理複雜度並犧牲了供餐速度。</div></label>
+            <input type="checkbox" name="i6" value="D" id="i6d"><label for="i6d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜管理層注意力偏移</div><div class="opt-title">高層專注展店，忽略稽核</div><div class="opt-desc">高層將心力全放在找新地點與收購品牌，嚴重忽略了現有門市的日常稽核。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i6" value="其他" id="i6e"><label for="i6e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i6" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i6','cc-i6')"></textarea><div class="char-count" id="cc-i6">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i5')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i6','s-i7')">下一頁：議題 7 →</button></div>
+    </div>
+
+    <!-- ⑧ 議題 7 -->
+    <div class="section" id="s-i7">
+      <div class="section-header">
+        <div class="section-tag">第 8 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 7：跨品牌併購與新產品的挫敗</div>
+        <div class="section-desc">麥當勞耗資 2 億美元推出招牌豪華堡，並收購 Boston Market 等品牌，最終都面臨鉅額虧損。其核心敗因為何？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i7" value="A" id="i7a"><label for="i7a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜品牌定位錯亂</div><div class="opt-title">核心資產與高價路線相悖</div><div class="opt-desc">麥當勞核心資產是「便宜、家庭與兒童」，硬推高價成人口味消費者認知不買單。</div></label>
+            <input type="checkbox" name="i7" value="B" id="i7b"><label for="i7b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜併購標的體質差</div><div class="opt-title">收購衰退期品牌</div><div class="opt-desc">收購的 Boston Market 等品牌本身就處於衰退期，直接成為財務拖油瓶。</div></label>
+            <input type="checkbox" name="i7" value="C" id="i7c"><label for="i7c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜核心能力不符</div><div class="opt-title">缺乏跨品類管理 Know-how</div><div class="opt-desc">麥當勞擅長漢堡標準化，但缺乏經營高單價披薩與墨西哥烤肉的管理能力。</div></label>
+            <input type="checkbox" name="i7" value="D" id="i7d"><label for="i7d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜資源過度分散</div><div class="opt-title">多品牌分散資金與精力</div><div class="opt-desc">多品牌經營嚴重分散資金與高層精力，無法專注解決本業營收下滑的危機。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i7" value="其他" id="i7e"><label for="i7e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i7" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i7','cc-i7')"></textarea><div class="char-count" id="cc-i7">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i6')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i7','s-i8')">下一頁：議題 8 →</button></div>
+    </div>
+
+    <!-- ⑨ 議題 8 -->
+    <div class="section" id="s-i8">
+      <div class="section-header">
+        <div class="section-tag">第 9 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 8：從「增加分店」到「增加顧客」的轉折</div>
+        <div class="section-desc">坎特盧波上任後，果斷削減 40% 展店資本支出，並專注於現有店面。為什麼這項「退一步」的策略能讓淨利大增 50%？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i8" value="A" id="i8a"><label for="i8a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜財務面止血</div><div class="opt-title">砍展店支出，立即改善現金流</div><div class="opt-desc">直接砍掉龐大的展店資本支出並關閉績效不佳分店，立即美化自由現金流。</div></label>
+            <input type="checkbox" name="i8" value="B" id="i8b"><label for="i8b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜內部關係修復</div><div class="opt-title">解除加盟主的「同類相食」恐懼</div><div class="opt-desc">停止盲目展店，使加盟主重新願意配合總部的品質要求。</div></label>
+            <input type="checkbox" name="i8" value="C" id="i8c"><label for="i8c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜行銷資源集中</div><div class="opt-title">資金轉向廣告與新品研發</div><div class="opt-desc">終於有充足資金進行全面廣告促銷與新品研發（如油炸雞肉捲），帶動單店銷量。</div></label>
+            <input type="checkbox" name="i8" value="D" id="i8d"><label for="i8d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜市場預期心理</div><div class="opt-title">重拾華爾街投資人信心</div><div class="opt-desc">策略轉向發出了「高層終於醒了」的訊號，讓投資人重拾信心，推升股價。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i8" value="其他" id="i8e"><label for="i8e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i8" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i8','cc-i8')"></textarea><div class="char-count" id="cc-i8">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i7')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i8','s-i9')">下一頁：議題 9 →</button></div>
+    </div>
+
+    <!-- ⑩ 議題 9 -->
+    <div class="section" id="s-i9">
+      <div class="section-header">
+        <div class="section-tag">第 10 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 9：硬體重塑與實體用餐體驗大升級</div>
+        <div class="section-desc">麥當勞耗資鉅額進行店面改造，換掉紅黃塑膠座椅，改用大地色調、大沙發並區分座位區。這項大改造創造的最大戰略價值為何？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i9" value="A" id="i9a"><label for="i9a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜品牌形象重塑</div><div class="opt-title">洗刷廉價負面標籤</div><div class="opt-desc">成功洗刷「廉價、匆忙、易胖」的舊有負面標籤，提升品牌價值感與質感。</div></label>
+            <input type="checkbox" name="i9" value="B" id="i9b"><label for="i9b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜停留與消費增加</div><div class="opt-title">舒適環境延長停留、帶動加點</div><div class="opt-desc">舒適的環境與 Wi-Fi 延長顧客停留時間，大幅提升加點飲料或點心的機率。</div></label>
+            <input type="checkbox" name="i9" value="C" id="i9c"><label for="i9c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜客群精準分流</div><div class="opt-title">分區擴大客群廣度</div><div class="opt-desc">將單身、商務客與家庭客區分開來，避免小孩吵鬧干擾商務客，擴大客群廣度。</div></label>
+            <input type="checkbox" name="i9" value="D" id="i9d"><label for="i9d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜營運效率提升</div><div class="opt-title">雙得來速與數位螢幕加快翻桌</div><div class="opt-desc">增設雙得來速車道與數位螢幕，實質解決結帳大排長龍的痛點，加快翻桌速度。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i9" value="其他" id="i9e"><label for="i9e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i9" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i9','cc-i9')"></textarea><div class="char-count" id="cc-i9">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i8')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i9','s-i10')">下一頁：議題 10 →</button></div>
+    </div>
+
+    <!-- ⑪ 議題 10 -->
+    <div class="section" id="s-i10">
+      <div class="section-header">
+        <div class="section-tag">第 11 區塊 / 共 13 區塊</div>
+        <div class="section-title">議題 10：正面對決星巴克的高價咖啡市場</div>
+        <div class="section-desc">在改善氣氛後，麥當勞大舉引進專業咖啡調理師，將咖啡機移至前台，進軍高價飲品市場。它敢直接挑戰星巴克的最大底氣是什麼？</div>
+      </div>
+      <div class="card">
+        <div class="field"><label class="field-label">請選出你認同的選項<span class="field-hint">可複選</span></label>
+          <div class="option-grid">
+            <input type="checkbox" name="i10" value="A" id="i10a"><label for="i10a" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 A｜絕對的價格優勢</div><div class="opt-title">比競爭對手便宜 60-80 美分</div><div class="opt-desc">利用強大的採購規模，將咖啡定價硬是比競爭對手便宜，吸引價格敏感客群。</div></label>
+            <input type="checkbox" name="i10" value="B" id="i10b"><label for="i10b" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 B｜無可匹敵的便利性</div><div class="opt-title">萬家分店＋得來速通路優勢</div><div class="opt-desc">挾帶全美超過萬家分店且多數備有「得來速」窗口，讓買咖啡變得極度順路。</div></label>
+            <input type="checkbox" name="i10" value="C" id="i10c"><label for="i10c" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 C｜硬體環境已就緒</div><div class="opt-title">店面改裝已成功營造咖啡廳氛圍</div><div class="opt-desc">先前的百萬美元店面改裝已成功營造「咖啡廳氛圍」，讓在麥當勞喝拿鐵不再突兀。</div></label>
+            <input type="checkbox" name="i10" value="D" id="i10d"><label for="i10d" class="option-card"><div class="opt-label"><span class="opt-check"></span>選項 D｜產品說服力提升</div><div class="opt-title">Baristas 消除速食咖啡難喝印象</div><div class="opt-desc">特別強調「咖啡調理師（Baristas）」親自調製，消除速食店咖啡難喝的刻板印象。</div></label>
+          </div>
+          <div class="option-other"><input type="checkbox" name="i10" value="其他" id="i10e"><label for="i10e" class="option-other-card"><span class="opt-check"></span><span class="opt-other-text">其他可能原因（請在下方說明）</span></label></div>
+        </div>
+        <div class="field"><label class="field-label">請說明你的選擇理由<span class="field-hint">至少 100 字</span></label><textarea id="f-i10" rows="5" placeholder="請詳細說明你選擇上述選項的原因，以及你的分析邏輯……" oninput="countChars('f-i10','cc-i10')"></textarea><div class="char-count" id="cc-i10">0 字</div></div>
+      </div>
+      <div class="nav-actions"><button class="btn-prev" onclick="goSection('s-i9')">← 上一頁</button><button class="btn-next" onclick="nextSection('s-i10','s-learning')">下一頁：學習狀況 →</button></div>
+    </div>
+
+    <!-- ⑫ 學習狀況（移至議題 10 之後） -->
+    <div class="section" id="s-learning">
+      <div class="section-header">
+        <div class="section-tag">第 12 區塊 / 共 13 區塊</div>
+        <div class="section-title">學習狀況</div>
+        <div class="section-desc">請誠實填寫，老師看到後會調整教學。</div>
+      </div>
+      <div class="card">
+        <div class="field">
+          <label class="field-label">今天課程的整體理解程度</label>
+          <div class="emoji-group">
+            <input type="radio" name="r-understand" value="5" id="u5"><label for="u5"><span class="emo">😄</span><span class="lbl">完全<br>理解</span></label>
+            <input type="radio" name="r-understand" value="4" id="u4"><label for="u4"><span class="emo">🙂</span><span class="lbl">大致<br>理解</span></label>
+            <input type="radio" name="r-understand" value="3" id="u3"><label for="u3"><span class="emo">😐</span><span class="lbl">有點<br>模糊</span></label>
+            <input type="radio" name="r-understand" value="2" id="u2"><label for="u2"><span class="emo">😕</span><span class="lbl">不太<br>懂</span></label>
+            <input type="radio" name="r-understand" value="1" id="u1"><label for="u1"><span class="emo">😵</span><span class="lbl">完全<br>不懂</span></label>
+          </div>
         </div>
       </div>
-
-      <!-- 成功畫面 -->
-      <div class="success-screen" id="successScreen">
-        <div class="big">🎉</div>
-        <h2>謝謝你的回饋！</h2>
-        <p>老師已收到你的意見<br>繼續加油 💪</p>
-        <button class="refill" onclick="location.reload()">重新填寫</button>
+      <div class="card">
+        <div class="field">
+          <label class="field-label">今天的討論讓你最有感的一句話</label>
+          <input id="f-hard" type="text" placeholder="必填。例如，一個概念，一個定義，或寫不超過六十字的一些話。">
+        </div>
+        <div class="field">
+          <label class="field-label">想問老師的問題，或是給老師建議<span class="field-hint">與課程內容有關的，可空白</span></label>
+          <textarea id="f-question" rows="3" placeholder="老師課後會統一回覆。"></textarea>
+        </div>
       </div>
+      <div class="nav-actions">
+        <button class="btn-prev" onclick="goSection('s-i10')">← 上一頁</button>
+        <button class="btn-next" onclick="nextSection('s-learning','s-pace')">下一頁：課程節奏 →</button>
+      </div>
+    </div>
 
-    </div><!-- .content -->
-  </div><!-- .layout -->
+    <!-- ⑬ 課程節奏（移至學習狀況之後，確認送出之前） -->
+    <div class="section" id="s-pace">
+      <div class="section-header">
+        <div class="section-tag">第 13 區塊 / 共 13 區塊</div>
+        <div class="section-title">課程節奏</div>
+        <div class="section-desc">老師的教學速度對你來說如何？</div>
+      </div>
+      <div class="card">
+        <div class="field">
+          <label class="field-label">今天的上課速度</label>
+          <div class="btn-group">
+            <input type="radio" name="r-pace" value="太快" id="p1"><label for="p1">🏃 太快</label>
+            <input type="radio" name="r-pace" value="剛好" id="p2"><label for="p2">✅ 剛好</label>
+            <input type="radio" name="r-pace" value="太慢" id="p3"><label for="p3">🐢 太慢</label>
+          </div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-prev" onclick="goSection('s-learning')">← 上一頁</button>
+        <button class="btn-next" onclick="goReview()">下一頁：確認送出 →</button>
+      </div>
+    </div>
 
-  <script>
-    // ──────────────────────────────────────────
-    // ↓↓↓ 把這行換成你第二步拿到的 Web App URL ↓↓↓
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwad41r-0RJXTbtRkD_CCbGokaZqiwAdDjsiT6WgFpagkVinxN-v4G8hY4oxguNatKB/exec';
-    // ──────────────────────────────────────────
+    <!-- 確認送出 -->
+    <div class="section" id="s-review">
+      <div class="section-header">
+        <div class="section-tag">確認送出</div>
+        <div class="section-title">送出前請確認內容</div>
+        <div class="section-desc">確認無誤後按下「送出反饋」。</div>
+      </div>
+      <div class="card"><table class="review-table" id="reviewTable"></table></div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()"><span id="btnText">送出反饋</span></button>
+      <div class="status-row"><div class="status-dot ready" id="statusDot"></div><span id="statusText">尚未送出</span></div>
+      <div class="nav-actions" style="margin-top:16px;">
+        <button class="btn-prev" onclick="goSection('s-pace')">← 返回修改</button>
+        <span></span>
+      </div>
+    </div>
 
-    const SECTIONS = ['s-basic', 's-learning', 's-pace', 's-review'];
+    <!-- 成功畫面 -->
+    <div class="success-screen" id="successScreen">
+      <div class="big">🎉</div>
+      <h2>謝謝你的回饋！</h2>
+      <p>老師已收到你的意見<br>繼續加油 💪</p>
+      <button class="refill" onclick="location.reload()">重新填寫</button>
+    </div>
 
-    function goSection(id) {
-      SECTIONS.forEach(s => {
-        document.getElementById(s).classList.remove('active');
-        document.querySelector(`[data-target="${s}"]`).classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');
-      document.querySelector(`[data-target="${id}"]`).classList.add('active');
-      updateProgress();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  </div><!-- .content -->
+</div><!-- .layout -->
 
-    function nextSection(from, to) {
-      markDone(from);
-      goSection(to);
-    }
+<script>
+  // ──────────────────────────────────────────
+  // ↓↓↓ 把這行換成你的 Web App URL ↓↓↓
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwad41r-0RJXTbtRkD_CCbGokaZqiwAdDjsiT6WgFpagkVinxN-v4G8hY4oxguNatKB/exec';
+  // ──────────────────────────────────────────
 
-    function markDone(id) {
-      const btn = document.querySelector(`[data-target="${id}"]`);
-      btn.classList.add('done');
-    }
+  // 顯示目前時間供參考
+  function updateClock() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const el = document.getElementById('currentTime');
+    if (el) el.textContent = hh + ':' + mm;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
 
-    function updateProgress() {
-      const dones = document.querySelectorAll('.nav-btn.done').length;
-      const pct = Math.round((dones / 3) * 100);
-      document.getElementById('progressBar').style.width = pct + '%';
-      document.getElementById('progressPct').textContent = pct + '%';
-    }
+  const SECTIONS = [
+    's-basic',
+    's-i1','s-i2','s-i3','s-i4','s-i5',
+    's-i6','s-i7','s-i8','s-i9','s-i10',
+    's-learning','s-pace','s-review'
+  ];
+  const TOTAL_FILL = 13;
 
-    function getData() {
-      const understand = document.querySelector('input[name="r-understand"]:checked');
-      const pace = document.querySelector('input[name="r-pace"]:checked');
-      return {
-        '班級':     document.getElementById('f-class').value.trim(),
-        '姓名':     document.getElementById('f-name').value.trim(),
-        '學號':     document.getElementById('f-id').value.trim(),
-        '理解程度': understand ? understand.value : '',
-        '最難的概念': document.getElementById('f-hard').value.trim(),
-        '想問的問題': document.getElementById('f-question').value.trim(),
-        '課程節奏': pace ? pace.value : ''
-      };
-    }
+  function goSection(id) {
+    SECTIONS.forEach(s => {
+      document.getElementById(s).classList.remove('active');
+      document.querySelector(`[data-target="${s}"]`).classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    document.querySelector(`[data-target="${id}"]`).classList.add('active');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-    const LABELS = {
-      '班級': '班級',
-      '姓名': '姓名',
-      '學號': '學號',
-      '理解程度': '理解程度',
-      '最難的概念': '最難的概念',
-      '想問的問題': '想問的問題',
-      '課程節奏': '課程節奏'
+  function nextSection(from, to) { markDone(from); goSection(to); }
+  function markDone(id) { document.querySelector(`[data-target="${id}"]`).classList.add('done'); }
+
+  function updateProgress() {
+    const dones = document.querySelectorAll('.nav-btn.done').length;
+    const pct = Math.min(Math.round((dones / TOTAL_FILL) * 100), 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function countChars(fid, cid) {
+    const len = document.getElementById(fid).value.length;
+    const el = document.getElementById(cid);
+    el.textContent = len + ' 字';
+    el.className = 'char-count' + (len === 0 ? '' : len < 100 ? ' warn' : ' ok');
+  }
+
+  function getChecked(name) {
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value).join('、');
+  }
+
+  function getData() {
+    const understand = document.querySelector('input[name="r-understand"]:checked');
+    const pace = document.querySelector('input[name="r-pace"]:checked');
+    const d = {
+      '班級':         document.getElementById('f-class').value.trim(),
+      '姓名':         document.getElementById('f-name').value.trim(),
+      '學號':         document.getElementById('f-id').value.trim(),
+      '組別':         document.getElementById('f-group').value.trim(),
+      'Gmail':        document.getElementById('f-gmail').value.trim(),
+      '開始填寫時間': document.getElementById('f-starttime').value,
+      '理解程度':     understand ? understand.value : '',
+      '最有感的一句話': document.getElementById('f-hard').value.trim(),
+      '問題或建議':   document.getElementById('f-question').value.trim(),
+      '課程節奏':     pace ? pace.value : '',
     };
+    for (let i = 1; i <= 10; i++) {
+      d[`議題${i}選項`] = getChecked(`i${i}`);
+      d[`議題${i}說明`] = document.getElementById(`f-i${i}`).value.trim();
+    }
+    return d;
+  }
 
-    const UNDERSTAND_MAP = { '5':'😄 完全理解', '4':'🙂 大致理解', '3':'😐 有點模糊', '2':'😕 不太懂', '1':'😵 完全不懂' };
+  const UNDERSTAND_MAP = {
+    '5':'😄 完全理解','4':'🙂 大致理解',
+    '3':'😐 有點模糊','2':'😕 不太懂','1':'😵 完全不懂'
+  };
+  const LABELS = {
+    '班級':'班級','姓名':'姓名','學號':'學號','組別':'組別',
+    'Gmail':'Gmail','開始填寫時間':'開始填寫時間',
+    '理解程度':'理解程度',
+    '最有感的一句話':'最有感的一句話',
+    '問題或建議':'問題或建議',
+    '課程節奏':'課程節奏',
+  };
+  for (let i = 1; i <= 10; i++) {
+    LABELS[`議題${i}選項`] = `議題 ${i} 選項`;
+    LABELS[`議題${i}說明`] = `議題 ${i} 說明`;
+  }
 
-    function goReview() {
-      markDone('s-pace');
-      const data = getData();
-      const tbody = document.getElementById('reviewTable');
-      tbody.innerHTML = Object.entries(data).map(([k, v]) => {
+  function goReview() {
+    markDone('s-pace');
+    const data = getData();
+    document.getElementById('reviewTable').innerHTML =
+      Object.entries(data).map(([k, v]) => {
         let display = v || '<span class="review-empty">（未填）</span>';
         if (k === '理解程度' && v) display = UNDERSTAND_MAP[v] || v;
         return `<tr><th>${LABELS[k]}</th><td>${display}</td></tr>`;
       }).join('');
-      goSection('s-review');
+    goSection('s-review');
+  }
+
+  async function submitForm() {
+    const data = getData();
+
+    // 驗證
+    if (!data['班級'] || !data['姓名'] || !data['學號']) {
+      alert('請回到「基本資料」填寫班級、姓名和學號。'); goSection('s-basic'); return;
     }
-
-    async function submitForm() {
-      const data = getData();
-
-      // 基本驗證
-      if (!data['班級'] || !data['姓名'] || !data['學號']) {
-        alert('請回到「基本資料」填寫班級、姓名和學號。');
-        goSection('s-basic');
-        return;
+    if (!data['組別']) {
+      alert('請回到「基本資料」填寫組別。'); goSection('s-basic'); return;
+    }
+    if (!data['Gmail']) {
+      alert('請回到「基本資料」填寫 Gmail。'); goSection('s-basic'); return;
+    }
+    if (!data['開始填寫時間']) {
+      alert('請回到「基本資料」填寫開始填寫的時間。'); goSection('s-basic'); return;
+    }
+    for (let i = 1; i <= 10; i++) {
+      if (!data[`議題${i}選項`]) {
+        alert(`請回到「議題 ${i}」至少勾選一個選項。`); goSection(`s-i${i}`); return;
       }
-      if (!data['理解程度']) {
-        alert('請回到「學習狀況」選擇理解程度。');
-        goSection('s-learning');
-        return;
-      }
-      if (!data['課程節奏']) {
-        alert('請回到「課程節奏」選擇節奏。');
-        goSection('s-pace');
-        return;
-      }
-
-      const btn = document.getElementById('submitBtn');
-      const btnText = document.getElementById('btnText');
-      const dot = document.getElementById('statusDot');
-      const statusText = document.getElementById('statusText');
-
-      btn.disabled = true;
-      btnText.textContent = '傳送中…';
-      statusText.textContent = '傳送中…';
-
-      // 組 FormData（對應 Sheets 欄位名稱）
-      const fd = new FormData();
-      Object.entries(data).forEach(([k, v]) => fd.append(k, v));
-
-      try {
-        const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
-        const json = await res.json();
-
-        if (json.result === 'success') {
-          document.querySelector('.content').innerHTML = '';
-          document.querySelector('.content').appendChild(
-            Object.assign(document.createElement('div'), {
-              className: 'success-screen',
-              style: 'display:block',
-              innerHTML: `<div class="big">🎉</div>
-                <h2>謝謝你的回饋！</h2>
-                <p>老師已收到你的意見<br>繼續加油 💪</p>
-                <button class="refill" onclick="location.reload()">重新填寫</button>`
-            })
-          );
-        } else {
-          alert('提交失敗，請稍後再試。');
-          btn.disabled = false;
-          btnText.textContent = '送出反饋';
-          statusText.textContent = '送出失敗，請重試';
-        }
-      } catch (err) {
-        alert('網路錯誤，請確認網路連線後再試。');
-        btn.disabled = false;
-        btnText.textContent = '送出反饋';
-        statusText.textContent = '網路錯誤';
+      if (data[`議題${i}說明`].length < 100) {
+        alert(`請回到「議題 ${i}」，說明文字至少需要 100 字（目前 ${data[`議題${i}說明`].length} 字）。`);
+        goSection(`s-i${i}`); return;
       }
     }
-  </script>
+    if (!data['理解程度']) {
+      alert('請回到「學習狀況」選擇理解程度。'); goSection('s-learning'); return;
+    }
+    if (!data['最有感的一句話']) {
+      alert('請回到「學習狀況」填寫今天最有感的一句話。'); goSection('s-learning'); return;
+    }
+    if (!data['課程節奏']) {
+      alert('請回到「課程節奏」選擇節奏。'); goSection('s-pace'); return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const statusText = document.getElementById('statusText');
+    btn.disabled = true; btnText.textContent = '傳送中…'; statusText.textContent = '傳送中…';
+
+    const fd = new FormData();
+    Object.entries(data).forEach(([k, v]) => fd.append(k, v));
+
+    try {
+      const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+      const json = await res.json();
+      if (json.result === 'success') {
+        document.querySelector('.content').innerHTML =
+          `<div class="success-screen" style="display:block">
+            <div class="big">🎉</div><h2>謝謝你的回饋！</h2>
+            <p>老師已收到你的意見<br>繼續加油 💪</p>
+            <button class="refill" onclick="location.reload()">重新填寫</button>
+          </div>`;
+      } else {
+        alert('提交失敗，請稍後再試。');
+        btn.disabled = false; btnText.textContent = '送出反饋'; statusText.textContent = '送出失敗，請重試';
+      }
+    } catch (err) {
+      alert('網路錯誤，請確認網路連線後再試。');
+      btn.disabled = false; btnText.textContent = '送出反饋'; statusText.textContent = '網路錯誤';
+    }
+  }
+</script>
 
 </body>
 </html>
