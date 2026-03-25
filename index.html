@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>麥當勞個案</title>
+  <title>課堂即時反饋</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -146,7 +146,7 @@
 
 <header>
   <div class="header-left">
-    <div class="header-logo">📚 麥當勞個案</div>
+    <div class="header-logo">📚 課堂即時反饋</div>
     <div class="header-divider"></div>
     <div class="header-sub">填完後老師會即時看到</div>
   </div>
@@ -226,10 +226,12 @@
           <input id="f-starttime" type="time">
           <div class="time-hint">系統目前時間：<span id="currentTime">--:--</span></div>
         </div>
+        <!-- 隱形欄位：由系統自動記錄按下「下一頁」的時間 -->
+        <input type="hidden" id="f-systemtime" value="">
       </div>
       <div class="nav-actions">
         <span></span>
-        <button class="btn-next" onclick="nextSection('s-basic','s-i1')">下一頁：議題 1 →</button>
+        <button class="btn-next" onclick="validateBasicAndNext()">下一頁：議題 1 →</button>
       </div>
     </div>
 
@@ -574,8 +576,45 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function nextSection(from, to) { markDone(from); goSection(to); }
+  function nextSection(from, to) { markDone(from); saveProgress(); goSection(to); }
   function markDone(id) { document.querySelector(`[data-target="${id}"]`).classList.add('done'); }
+
+  // 基本資料擋關：確認必填欄位都填了才能進入議題
+  function validateBasicAndNext() {
+    const name     = document.getElementById('f-name').value.trim();
+    const id       = document.getElementById('f-id').value.trim();
+    const dept     = document.getElementById('f-class').value.trim();
+    const group    = document.getElementById('f-group').value.trim();
+    const gmail    = document.getElementById('f-gmail').value.trim();
+    const time     = document.getElementById('f-starttime').value;
+    const classtime = document.querySelector('input[name="r-classtime"]:checked');
+
+    if (!dept)      { alert('請填寫「系級」。');           return; }
+    if (!classtime) { alert('請選擇「上課班級」。');       return; }
+    if (!name)      { alert('請填寫「姓名」。');           return; }
+    if (!id)        { alert('請填寫「學號」。');           return; }
+    if (!group)     { alert('請填寫「組別」。');           return; }
+    if (!gmail)     { alert('請填寫「Gmail」。');          return; }
+    if (!time)      { alert('請填寫「開始填寫資料的時間」。'); return; }
+
+    // 全部通過：記錄系統時間後換頁
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    const systemTime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    document.getElementById('f-systemtime').value = systemTime;
+
+    nextSection('s-basic', 's-i1');
+  }
+
+
+  function saveProgress() {
+    const studentId = document.getElementById("f-id").value.trim();
+    if (!studentId) return;
+    const data = getData();
+    const fd = new FormData();
+    Object.entries(data).forEach(([k, v]) => { if (v !== "") fd.append(k, v); });
+    fetch(SCRIPT_URL, { method: "POST", body: fd }).catch(() => {});
+  }
 
   function updateProgress() {
     const dones = document.querySelectorAll('.nav-btn.done').length;
@@ -607,6 +646,7 @@
       '組別':         document.getElementById('f-group').value.trim(),
       'Gmail':        document.getElementById('f-gmail').value.trim(),
       '開始填寫時間': document.getElementById('f-starttime').value,
+      '系統開始時間': document.getElementById('f-systemtime').value,
       '理解程度':     understand ? understand.value : '',
       '最有感的一句話': document.getElementById('f-hard').value.trim(),
       '問題或建議':   document.getElementById('f-question').value.trim(),
@@ -625,7 +665,7 @@
   };
   const LABELS = {
     '系級':'系級','上課班級':'上課班級','姓名':'姓名','學號':'學號','組別':'組別',
-    'Gmail':'Gmail','開始填寫時間':'開始填寫時間',
+    'Gmail':'Gmail','開始填寫時間':'開始填寫時間','系統開始時間':'系統開始時間（自動）',
     '理解程度':'理解程度',
     '最有感的一句話':'最有感的一句話',
     '問題或建議':'問題或建議',
